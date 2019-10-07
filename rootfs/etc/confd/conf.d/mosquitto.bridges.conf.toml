@@ -1,0 +1,3 @@
+[template]
+src = "mosquitto.bridges.conf.tmpl"
+dest = "/etc/mosquitto/conf.d/mosquitto.bridges.conf"

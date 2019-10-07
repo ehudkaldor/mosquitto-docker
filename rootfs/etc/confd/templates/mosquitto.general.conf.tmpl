@@ -1,0 +1,153 @@
+# =================================================================
+# General configuration
+# =================================================================
+
+# Time in seconds between updates of the $SYS tree.
+# Set to 0 to disable the publishing of the $SYS tree.
+#sys_interval 10
+
+# Time in seconds between cleaning the internal message store of
+# unreferenced messages. Lower values will result in lower memory
+# usage but more processor time, higher values will have the
+# opposite effect.
+# Setting a value of 0 means the unreferenced messages will be
+# disposed of as quickly as possible.
+#store_clean_interval 10
+
+# Write process id to a file. Default is a blank string which means
+# a pid file shouldn't be written.
+# This should be set to /var/run/mosquitto.pid if mosquitto is
+# being run automatically on boot with an init script and
+# start-stop-daemon or similar.
+#pid_file
+
+# When run as root, drop privileges to this user and its primary
+# group.
+# Set to root to stay as root, but this is not recommended.
+# If run as a non-root user, this setting has no effect.
+# Note that on Windows this has no effect and so mosquitto should
+# be started by the user you wish it to run as.
+#user mosquitto
+
+# The maximum number of QoS 1 and 2 messages currently inflight per
+# client.
+# This includes messages that are partway through handshakes and
+# those that are being retried. Defaults to 20. Set to 0 for no
+# maximum. Setting to 1 will guarantee in-order delivery of QoS 1
+# and 2 messages.
+#max_inflight_messages 20
+
+# QoS 1 and 2 messages will be allowed inflight per client until this limit
+# is exceeded.  Defaults to 0. (No maximum)
+# See also max_inflight_messages
+#max_inflight_bytes 0
+
+# The maximum number of QoS 1 and 2 messages to hold in a queue per client
+# above those that are currently in-flight.  Defaults to 100. Set
+# to 0 for no maximum (not recommended).
+# See also queue_qos0_messages.
+# See also max_queued_bytes.
+#max_queued_messages 100
+
+# QoS 1 and 2 messages above those currently in-flight will be queued per
+# client until this limit is exceeded.  Defaults to 0. (No maximum)
+# See also max_queued_messages.
+# If both max_queued_messages and max_queued_bytes are specified, packets will
+# be queued until the first limit is reached.
+#max_queued_bytes 0
+
+# Set to true to queue messages with QoS 0 when a persistent client is
+# disconnected. These messages are included in the limit imposed by
+# max_queued_messages and max_queued_bytes
+# Defaults to false.
+# This is a non-standard option for the MQTT v3.1 spec but is allowed in
+# v3.1.1.
+#queue_qos0_messages false
+
+# This option sets the maximum publish payload size that the broker will allow.
+# Received messages that exceed this size will not be accepted by the broker.
+# The default value is 0, which means that all valid MQTT messages are
+# accepted. MQTT imposes a maximum payload size of 268435455 bytes.
+#message_size_limit 0
+
+# This option controls whether a client is allowed to connect with a zero
+# length client id or not. This option only affects clients using MQTT v3.1.1
+# and later. If set to false, clients connecting with a zero length client id
+# are disconnected. If set to true, clients will be allocated a client id by
+# the broker. This means it is only useful for clients with clean session set
+# to true.
+#allow_zero_length_clientid true
+
+# If allow_zero_length_clientid is true, this option allows you to set a prefix
+# to automatically generated client ids to aid visibility in logs.
+#auto_id_prefix
+
+# This option allows persistent clients (those with clean session set to false)
+# to be removed if they do not reconnect within a certain time frame.
+#
+# This is a non-standard option in MQTT V3.1 but allowed in MQTT v3.1.1.
+#
+# Badly designed clients may set clean session to false whilst using a randomly
+# generated client id. This leads to persistent clients that will never
+# reconnect. This option allows these clients to be removed.
+#
+# The expiration period should be an integer followed by one of h d w m y for
+# hour, day, week, month and year respectively. For example
+#
+# persistent_client_expiration 2m
+# persistent_client_expiration 14d
+# persistent_client_expiration 1y
+#
+# The default if not set is to never expire persistent clients.
+#persistent_client_expiration
+
+# If a client is subscribed to multiple subscriptions that overlap, e.g. foo/#
+# and foo/+/baz , then MQTT expects that when the broker receives a message on
+# a topic that matches both subscriptions, such as foo/bar/baz, then the client
+# should only receive the message once.
+# Mosquitto keeps track of which clients a message has been sent to in order to
+# meet this requirement. The allow_duplicate_messages option allows this
+# behaviour to be disabled, which may be useful if you have a large number of
+# clients subscribed to the same set of topics and are very concerned about
+# minimising memory usage.
+# It can be safely set to true if you know in advance that your clients will
+# never have overlapping subscriptions, otherwise your clients must be able to
+# correctly deal with duplicate messages even when then have QoS=2.
+#allow_duplicate_messages false
+
+# The MQTT specification requires that the QoS of a message delivered to a
+# subscriber is never upgraded to match the QoS of the subscription. Enabling
+# this option changes this behaviour. If upgrade_outgoing_qos is set true,
+# messages sent to a subscriber will always match the QoS of its subscription.
+# This is a non-standard option explicitly disallowed by the spec.
+#upgrade_outgoing_qos false
+
+# Disable Nagle's algorithm on client sockets. This has the effect of reducing
+# latency of individual messages at the potential cost of increasing the number
+# of packets being sent.
+#set_tcp_nodelay false
+
+# Use per listener security settings.
+# If this option is set to true, then all authentication and access control
+# options are controlled on a per listener basis. The following options are
+# affected:
+#
+# password_file acl_file psk_file auth_plugin auth_opt_* allow_anonymous
+# auto_id_prefix allow_zero_length_clientid
+#
+# Note that if set to true, then a durable client (i.e. with clean session set
+# to false) that has disconnected will use the ACL settings defined for the
+# listener that it was most recently connected to.
+#
+# The default behaviour is for this to be set to false, which maintains the
+# setting behaviour from previous versions of mosquitto.
+#per_listener_settings false
+
+# This option affects the scenario when a client subscribes to a topic that has
+# retained messages. It is possible that the client that published the retained
+# message to the topic had access at the time they published, but that access
+# has been subsequently removed. If check_retain_source is set to true, the
+# default, the source of a retained message will be checked for access rights
+# before it is republished. When set to false, no check will be made and the
+# retained message will always be published. This affects all listeners.
+#check_retain_source true

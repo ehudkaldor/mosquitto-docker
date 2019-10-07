@@ -1,0 +1,281 @@
+# =================================================================
+# Default listener
+# =================================================================
+
+# IP address/hostname to bind the default listener to. If not
+# given, the default listener will not be bound to a specific
+# address and so will be accessible to all network interfaces.
+# bind_address ip-address/host name
+#bind_address
+
+# Port to use for the default listener.
+#port 1883
+
+# The maximum number of client connections to allow. This is
+# a per listener setting.
+# Default is -1, which means unlimited connections.
+# Note that other process limits mean that unlimited connections
+# are not really possible. Typically the default maximum number of
+# connections possible is around 1024.
+#max_connections -1
+
+# Choose the protocol to use when listening.
+# This can be either mqtt or websockets.
+# Websockets support is currently disabled by default at compile time.
+# Certificate based TLS may be used with websockets, except that
+# only the cafile, certfile, keyfile and ciphers options are supported.
+#protocol mqtt
+
+# When a listener is using the websockets protocol, it is possible to serve
+# http data as well. Set http_dir to a directory which contains the files you
+# wish to serve. If this option is not specified, then no normal http
+# connections will be possible.
+#http_dir
+
+# Set use_username_as_clientid to true to replace the clientid that a client
+# connected with with its username. This allows authentication to be tied to
+# the clientid, which means that it is possible to prevent one client
+# disconnecting another by using the same clientid.
+# If a client connects with no username it will be disconnected as not
+# authorised when this option is set to true.
+# Do not use in conjunction with clientid_prefixes.
+# See also use_identity_as_username.
+#use_username_as_clientid
+
+# -----------------------------------------------------------------
+# Certificate based SSL/TLS support
+# -----------------------------------------------------------------
+# The following options can be used to enable SSL/TLS support for
+# this listener. Note that the recommended port for MQTT over TLS
+# is 8883, but this must be set manually.
+#
+# See also the mosquitto-tls man page.
+
+# At least one of cafile or capath must be defined. They both
+# define methods of accessing the PEM encoded Certificate
+# Authority certificates that have signed your server certificate
+# and that you wish to trust.
+# cafile defines the path to a file containing the CA certificates.
+# capath defines a directory that will be searched for files
+# containing the CA certificates. For capath to work correctly, the
+# certificate files must have ".crt" as the file ending and you must run
+# "openssl rehash <path to capath>" each time you add/remove a certificate.
+#cafile
+#capath
+
+# Path to the PEM encoded server certificate.
+#certfile
+
+# Path to the PEM encoded keyfile.
+#keyfile
+
+# This option defines the version of the TLS protocol to use for this listener.
+# The default value allows v1.2, v1.1 and v1.0. The valid values are tlsv1.2
+# tlsv1.1 and tlsv1.
+#tls_version
+
+# By default a TLS enabled listener will operate in a similar fashion to a
+# https enabled web server, in that the server has a certificate signed by a CA
+# and the client will verify that it is a trusted certificate. The overall aim
+# is encryption of the network traffic. By setting require_certificate to true,
+# the client must provide a valid certificate in order for the network
+# connection to proceed. This allows access to the broker to be controlled
+# outside of the mechanisms provided by MQTT.
+#require_certificate false
+
+# If require_certificate is true, you may set use_identity_as_username to true
+# to use the CN value from the client certificate as a username. If this is
+# true, the password_file option will not be used for this listener.
+# This takes priority over use_subject_as_username.
+# See also use_subject_as_username.
+#use_identity_as_username false
+
+# If require_certificate is true, you may set use_subject_as_username to true
+# to use the complete subject value from the client certificate as a username.
+# If this is true, the password_file option will not be used for this listener.
+# See also use_identity_as_username
+#use_subject_as_username false
+
+# If you have require_certificate set to true, you can create a certificate
+# revocation list file to revoke access to particular client certificates. If
+# you have done this, use crlfile to point to the PEM encoded revocation file.
+#crlfile
+
+# If you wish to control which encryption ciphers are used, use the ciphers
+# option. The list of available ciphers can be obtained using the "openssl
+# ciphers" command and should be provided in the same format as the output of
+# that command.
+# If unset defaults to DEFAULT:!aNULL:!eNULL:!LOW:!EXPORT:!SSLv2:@STRENGTH
+#ciphers DEFAULT:!aNULL:!eNULL:!LOW:!EXPORT:!SSLv2:@STRENGTH
+
+# -----------------------------------------------------------------
+# Pre-shared-key based SSL/TLS support
+# -----------------------------------------------------------------
+# The following options can be used to enable PSK based SSL/TLS support for
+# this listener. Note that the recommended port for MQTT over TLS is 8883, but
+# this must be set manually.
+#
+# See also the mosquitto-tls man page and the "Certificate based SSL/TLS
+# support" section. Only one of certificate or PSK encryption support can be
+# enabled for any listener.
+
+# The psk_hint option enables pre-shared-key support for this listener and also
+# acts as an identifier for this listener. The hint is sent to clients and may
+# be used locally to aid authentication. The hint is a free form string that
+# doesn't have much meaning in itself, so feel free to be creative.
+# If this option is provided, see psk_file to define the pre-shared keys to be
+# used or create a security plugin to handle them.
+#psk_hint
+
+# Set use_identity_as_username to have the psk identity sent by the client used
+# as its username. Authentication will be carried out using the PSK rather than
+# the MQTT username/password and so password_file will not be used for this
+# listener.
+#use_identity_as_username false
+
+# When using PSK, the encryption ciphers used will be chosen from the list of
+# available PSK ciphers. If you want to control which ciphers are available,
+# use the "ciphers" option.  The list of available ciphers can be obtained
+# using the "openssl ciphers" command and should be provided in the same format
+# as the output of that command.
+#ciphers
+
+# =================================================================
+# Extra listeners
+# =================================================================
+
+# Listen on a port/ip address combination. By using this variable
+# multiple times, mosquitto can listen on more than one port. If
+# this variable is used and neither bind_address nor port given,
+# then the default listener will not be started.
+# The port number to listen on must be given. Optionally, an ip
+# address or host name may be supplied as a second argument. In
+# this case, mosquitto will attempt to bind the listener to that
+# address and so restrict access to the associated network and
+# interface. By default, mosquitto will listen on all interfaces.
+# Note that for a websockets listener it is not possible to bind to a host
+# name.
+# listener port-number [ip address/host name]
+#listener
+
+# The maximum number of client connections to allow. This is
+# a per listener setting.
+# Default is -1, which means unlimited connections.
+# Note that other process limits mean that unlimited connections
+# are not really possible. Typically the default maximum number of
+# connections possible is around 1024.
+#max_connections -1
+
+# The listener can be restricted to operating within a topic hierarchy using
+# the mount_point option. This is achieved be prefixing the mount_point string
+# to all topics for any clients connected to this listener. This prefixing only
+# happens internally to the broker; the client will not see the prefix.
+#mount_point
+
+# Choose the protocol to use when listening.
+# This can be either mqtt or websockets.
+# Certificate based TLS may be used with websockets, except that only the
+# cafile, certfile, keyfile and ciphers options are supported.
+#protocol mqtt
+
+# When a listener is using the websockets protocol, it is possible to serve
+# http data as well. Set http_dir to a directory which contains the files you
+# wish to serve. If this option is not specified, then no normal http
+# connections will be possible.
+#http_dir
+
+# Set use_username_as_clientid to true to replace the clientid that a client
+# connected with with its username. This allows authentication to be tied to
+# the clientid, which means that it is possible to prevent one client
+# disconnecting another by using the same clientid.
+# If a client connects with no username it will be disconnected as not
+# authorised when this option is set to true.
+# Do not use in conjunction with clientid_prefixes.
+# See also use_identity_as_username.
+#use_username_as_clientid
+
+# -----------------------------------------------------------------
+# Certificate based SSL/TLS support
+# -----------------------------------------------------------------
+# The following options can be used to enable certificate based SSL/TLS support
+# for this listener. Note that the recommended port for MQTT over TLS is 8883,
+# but this must be set manually.
+#
+# See also the mosquitto-tls man page and the "Pre-shared-key based SSL/TLS
+# support" section. Only one of certificate or PSK encryption support can be
+# enabled for any listener.
+
+# At least one of cafile or capath must be defined to enable certificate based
+# TLS encryption. They both define methods of accessing the PEM encoded
+# Certificate Authority certificates that have signed your server certificate
+# and that you wish to trust.
+# cafile defines the path to a file containing the CA certificates.
+# capath defines a directory that will be searched for files
+# containing the CA certificates. For capath to work correctly, the
+# certificate files must have ".crt" as the file ending and you must run
+# "openssl rehash <path to capath>" each time you add/remove a certificate.
+#cafile
+#capath
+
+# Path to the PEM encoded server certificate.
+#certfile
+
+# Path to the PEM encoded keyfile.
+#keyfile
+
+# By default an TLS enabled listener will operate in a similar fashion to a
+# https enabled web server, in that the server has a certificate signed by a CA
+# and the client will verify that it is a trusted certificate. The overall aim
+# is encryption of the network traffic. By setting require_certificate to true,
+# the client must provide a valid certificate in order for the network
+# connection to proceed. This allows access to the broker to be controlled
+# outside of the mechanisms provided by MQTT.
+#require_certificate false
+
+# If require_certificate is true, you may set use_identity_as_username to true
+# to use the CN value from the client certificate as a username. If this is
+# true, the password_file option will not be used for this listener.
+#use_identity_as_username false
+
+# If you have require_certificate set to true, you can create a certificate
+# revocation list file to revoke access to particular client certificates. If
+# you have done this, use crlfile to point to the PEM encoded revocation file.
+#crlfile
+
+# If you wish to control which encryption ciphers are used, use the ciphers
+# option. The list of available ciphers can be optained using the "openssl
+# ciphers" command and should be provided in the same format as the output of
+# that command.
+#ciphers
+
+# -----------------------------------------------------------------
+# Pre-shared-key based SSL/TLS support
+# -----------------------------------------------------------------
+# The following options can be used to enable PSK based SSL/TLS support for
+# this listener. Note that the recommended port for MQTT over TLS is 8883, but
+# this must be set manually.
+#
+# See also the mosquitto-tls man page and the "Certificate based SSL/TLS
+# support" section. Only one of certificate or PSK encryption support can be
+# enabled for any listener.
+
+# The psk_hint option enables pre-shared-key support for this listener and also
+# acts as an identifier for this listener. The hint is sent to clients and may
+# be used locally to aid authentication. The hint is a free form string that
+# doesn't have much meaning in itself, so feel free to be creative.
+# If this option is provided, see psk_file to define the pre-shared keys to be
+# used or create a security plugin to handle them.
+#psk_hint
+
+# Set use_identity_as_username to have the psk identity sent by the client used
+# as its username. Authentication will be carried out using the PSK rather than
+# the MQTT username/password and so password_file will not be used for this
+# listener.
+#use_identity_as_username false
+
+# When using PSK, the encryption ciphers used will be chosen from the list of
+# available PSK ciphers. If you want to control which ciphers are available,
+# use the "ciphers" option.  The list of available ciphers can be optained
+# using the "openssl ciphers" command and should be provided in the same format
+# as the output of that command.
+#ciphers

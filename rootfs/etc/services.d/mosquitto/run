@@ -1,0 +1,6 @@
+#!/bin/sh
+#fdmove -c 2 1
+#s6-envdir env
+
+echo "Starting mosquitto server..."
+mosquitto -c /etc/mosquitto/mosquitto.conf
