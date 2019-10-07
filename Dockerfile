@@ -6,7 +6,7 @@
 #
 ################################################
 
-FROM		    ehudkaldor/alpine-s6:latest
+FROM		    ehudkaldor/alpine-s6-rpi:latest
 MAINTAINER	Ehud Kaldor <ehud@UnfairFunction.org>
 
 # Server socket.
