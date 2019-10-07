@@ -22,7 +22,7 @@
 # subscriptions, currently in-flight messages and retained
 # messages.
 # retained_persistence is a synonym for this option.
-#persistence false
+persistence {{getenv "PERSISTENCE" "true"}}
 
 # The filename to use for the persistent database, not including
 # the path.
@@ -32,4 +32,4 @@
 # Default is an empty string (current directory).
 # Set to e.g. /var/lib/mosquitto/ if running as a proper service on Linux or
 # similar.
-#persistence_location
+persistence_location {{getenv "PERSISTENCE_LOCATION" "/var/lib/mosquitto/"}}
