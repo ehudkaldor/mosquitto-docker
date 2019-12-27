@@ -1,0 +1,3 @@
+[template]
+src = "socklog_mosquitto.tmpl"
+dest = "/etc/socklog.rules/~-mosquitto"

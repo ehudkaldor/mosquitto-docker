@@ -31,7 +31,7 @@ log_dest syslog
 # "daemon" facility by default. Use the log_facility option to choose which of
 # local0 to local7 to log to instead. The option value should be an integer
 # value, e.g. "log_facility 5" to use local5.
-#log_facility
+log_facility {{ getenv "LOGGER_NUMBER" "5" }}
 
 # Types of messages to log. Use multiple log_type lines for logging
 # multiple types of messages.
